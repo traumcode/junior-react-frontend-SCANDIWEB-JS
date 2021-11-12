@@ -38,3 +38,85 @@
    justify-content: center;
    align-items: center;
    }
+
+.shoppingCartAndCurrencyContainer {
+   height: 100%;
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-end;
+   align-items: center;
+   }
+
+.smallContainer {
+   height: 40px;
+   width: 204px;
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-end;
+   align-items: center;
+   
+   position: absolute;
+   right: 101px;
+   top: 23px;
+   }
+
+.currencyButtonContainer {
+   display: inline-block;
+   position: relative;
+   justify-content: center;
+   align-items: center;
+   gap: 7px;
+	 
+   }
+
+.currencyButton {
+   width: 10px;
+   display: flex;
+   margin-top: 0.3rem;
+   justify-content: center;
+   align-items: center;
+   border: 0;
+   background-color: transparent;
+   cursor: pointer;
+   }
+
+.currencyButton h3 {
+   font-family: "Raleway", sans-serif;
+   font-style: normal;
+   font-weight: 500;
+   font-size: 18px;
+   }
+
+.currencyContent {
+   display: none;
+   flex-direction: column;
+   position: absolute;
+   background-color: #f9f9f9;
+   min-width: 120px;
+   top: 100%;
+   right: -2px;
+   left: -80px;
+   margin-right: 100px;
+   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+   padding: 12px 16px;
+   z-index: 1;
+   }
+
+.currencyButtonContainer .currencyContent {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   }
+
+.currencyButtonText {
+   font-family: Raleway, sans-serif;
+   font-style: normal;
+   font-weight: 500;
+   font-size: 18px;
+   line-height: 160%;
+   }
+
+.currencyButtonText:hover {
+   background-color: rgb(236, 236, 236);
+   }

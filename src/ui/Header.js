@@ -122,12 +122,29 @@ export default class Header extends React.PureComponent {
 					  <button className={styles.currencyButton} onClick={() => this.props.setShow("currency")}>
 						<h3>{currencyToSign[this.props.mainStorage.currency] || "$"}</h3>
 					  </button>
+					  {this.props.show === "currency" ? (
+						<div className={styles.currencyContent}> {Object.keys(currencyToSign).map((currency, index) => {
+						   return (
+							 <button
+							    key={index}
+							    className={styles.currencyButton}
+							    onClick={() => {
+								  setMainStorage({ currency });
+								  this.props.setShow(null);
+							    }}>
+							    <h3 className={styles.currencyButtonText}>
+								  {currencyToSign[currency]}
+								  {currency}
+							    </h3>
+							 </button>);
+						})}
+						</div>
+					  ) : (
+						""
+					  )}
 				    </div>
-
 				 </div>
-
 			   </div>
-
 			</div>
 		  </Head>
 	    </div>
