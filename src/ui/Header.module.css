@@ -1,0 +1,40 @@
+.navigation {
+   height: 100%;
+   width: 100%;
+   background-color: #ffffff;
+   color: black;
+   display: flex;
+   justify-content: center;
+   align-items: flex-end;
+   }
+
+.category {
+   height: 56px;
+   width: 234px;
+   display: flex;
+   align-items: flex-end;
+   justify-content: space-around;
+   }
+
+.categoryButtonFocus {
+   border-bottom: 2px solid #5ece7b;
+   color: #5ece7b;
+   font-weight: 600;
+   }
+
+.categoryButton {
+   border: none;
+   }
+
+.link {
+   all: unset;
+   cursor: pointer;
+   }
+
+.logoContainer {
+   height: 100%;
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   }
