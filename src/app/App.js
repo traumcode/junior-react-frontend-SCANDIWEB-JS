@@ -5,6 +5,7 @@ import { onError } from "@apollo/client/link/error";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Layout from "../ui/Layout";
 import mainStorage from "../mainStorage";
+import { getDistinctIDs } from "../utils/GetData";
 
 export const currencyToSign = {
    GBP: "£",
@@ -78,13 +79,12 @@ export default class App extends PureComponent {
    }
 
    render() {
-	 console.log(this.state.mainStorage)
 	 return (
 	    <ApolloProvider client={client}>
 		  <Router>
 			<Layout mainstorage={this.state.mainStorage} client={client}>
 			   <Switch>
-				 <Route path="/" exact>
+				 <Route path="/" exact getDistinctIDs={getDistinctIDs}>
 				    <div><h1>HOME</h1></div>
 				 </Route>
 			   </Switch>

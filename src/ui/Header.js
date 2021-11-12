@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import styles from "./Header.module.css";
 import { currencyToSign, setMainStorage } from "../app/App";
+import { getDistinctIDs as GetDistinctIDs } from "../utils/GetData";
 import { ReactComponent as BrandSvg } from "../resources/brand.svg";
+import { ReactComponent as CartSvg } from "../resources/cart.svg";
 
 
 const Head = styled.div`
@@ -32,7 +34,7 @@ const CategoryButton = styled.button`
   flex: none;
   order: 0;
   flex-grow: 0;
-  margin: 30px 0px;
+  margin: 30px 0;
   cursor: pointer;
 `;
 
@@ -47,6 +49,7 @@ export default class Header extends React.PureComponent {
 	    currenciesMenuIsOpen: false,
 	    miniCartIsOpen: false,
 	    symbols: [ "$", "£", "$", "¥", "₽" ],
+	    prices: {}
 	 }
    }
 
@@ -76,6 +79,8 @@ export default class Header extends React.PureComponent {
    }
 
    render() {
+	 console.log(this.state)
+	 console.log(this.props)
 	 return (
 	    <div>
 		  <Head>
@@ -119,7 +124,13 @@ export default class Header extends React.PureComponent {
 			   <div className={styles.smallContainer}>
 				 <div className={styles.currencyButtonContainer}>
 				    <div>
-					  <button className={styles.currencyButton} onClick={() => this.props.setShow("currency")}>
+					  <button className={styles.currencyButton}
+							onClick={() => {
+							   this.props.show !== "currency" ?
+								 this.props.setShow("currency") :
+								 this.props.setShow(null)
+
+							}}>
 						<h3>{currencyToSign[this.props.mainStorage.currency] || "$"}</h3>
 					  </button>
 					  {this.props.show === "currency" ? (
@@ -143,10 +154,52 @@ export default class Header extends React.PureComponent {
 						""
 					  )}
 				    </div>
+				    <div
+					  onClick={() => {
+						this.props.setShow(this.props.show === "cart" ? null : "cart");
+						setMainStorage({ isCartMode: true })
+					  }}
+					  className={styles.shoppingCartButtonContainer}
+				    >
+					  <button className={styles.shoppingCartButton}>
+						<CartSvg/>
+						<span className={styles.totalItems}>{GetDistinctIDs().size}</span>
+					  </button>
+				    </div>
 				 </div>
 			   </div>
 			</div>
 		  </Head>
+		  {this.props.show === "cart" ? (
+			this.props.mainStorage?.cartProducts?.length ? (
+			   <div className={styles.dropDownShoppingCart}>
+				 <div className={styles.dropDownShoppingCartTitle}>
+				    <h3>My bag, {GetDistinctIDs().size}</h3>
+				 </div>
+				 <div className={styles.itemsContainer}>
+				    {this.props.mainStorage?.cartProducts?.sort((a, b) => a.id.localeCompare(b.id)).map((product, index) => {
+					  return (
+						<div key={product.id}>
+						   <div>{product.id}</div>
+						</div>
+					  );
+				    })}
+				 </div>
+				 <div className={styles.bottomContainer}>
+				    <div className={styles.totalPriceContainer}>
+					  <h3 className={styles.totalPrice}>Total</h3>
+					  <h3>
+						{currencyToSign[this.props.mainStorage.currency]}
+						{/*{Object.values(this.state.prices)}*/}
+					  </h3>
+
+				    </div>
+
+				 </div>
+			   </div>
+
+			) : (<div>ELSE</div>)
+		  ) : (<div>ELSE</div>)}
 	    </div>
 	 )
 
