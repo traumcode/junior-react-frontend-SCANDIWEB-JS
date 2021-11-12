@@ -72,6 +72,7 @@
 
 .currencyButton {
    width: 10px;
+   height:30px;
    display: flex;
    margin-top: 0.3rem;
    justify-content: center;
@@ -192,5 +193,20 @@
    overflow-x: hidden;
    }
 
+.bottomContainer {
+   position: absolute;
+   width: 325px;
+   height: 100px;
+   background-color: white;
+   top: 423px;
+   }
+
+.totalPriceContainer {
+   width: 287px;
+   margin-left: 16px;
+   margin-top: 20px;
+   display: flex;
+   justify-content: space-between;
+   }
 
 
