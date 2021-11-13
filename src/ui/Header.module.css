@@ -72,7 +72,7 @@
 
 .currencyButton {
    width: 10px;
-   height:30px;
+   height: 30px;
    display: flex;
    margin-top: 0.3rem;
    justify-content: center;
@@ -159,7 +159,7 @@
 .dropDownShoppingCart {
    position: absolute;
    width: 325px;
-   height: 560px;
+   height: 580px;
    right: 6%;
    top: 78px;
    background-color: white;
@@ -167,6 +167,18 @@
    transform-origin: top center;
    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
    z-index: 1;
+   }
+
+@keyframes growDown {
+   0% {
+      transform: scaleY(0);
+      }
+   80% {
+      transform: scaleY(1.1);
+      }
+   100% {
+      transform: scaleY(1);
+      }
    }
 
 .dropDownShoppingCartTitle {
@@ -209,4 +221,55 @@
    justify-content: space-between;
    }
 
+.totalPrice {
+   font-family: Roboto, sans-serif;
+   font-style: normal;
+   font-weight: bold;
+   font-size: 16px;
+   line-height: 18px;
+   }
 
+.dropDownShoppingCartButtonContainer {
+   display: flex;
+   flex-direction: row;
+   width: 100%;
+   justify-content: space-around;
+   margin-top: 20px;
+   }
+
+.viewBag {
+   width: 140px;
+   height: 42px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   transition-duration: 0.4s;
+   cursor: pointer;
+   background-color: white;
+   border: 1px solid #1d1f22;
+   
+   color: black;
+   font-family: Raleway, sans-serif;
+   font-style: normal;
+   font-weight: 600;
+   font-size: 16px;
+   }
+
+.checkout {
+   background-color: #5ece7b; /* Green */
+   border: none;
+   color: white;
+   width: 140px;
+   height: 42px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   font-family: Raleway, sans-serif;
+   font-style: normal;
+   font-weight: lighter;
+   font-size: 16px;
+   }
+
+.currencySymbol {
+   margin-right: 30px;
+   }

@@ -12,7 +12,7 @@ const persist = {
 
 const persReduce = persistReducer(persist, reducer)
 
-export default function mainStorage() {
+export default function persMainStorage() {
    let store = createStore(persReduce, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
    let persist = persistStore(store);
    return { store, persist}

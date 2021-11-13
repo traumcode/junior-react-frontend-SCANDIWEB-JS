@@ -39,8 +39,6 @@ const CategoryButton = styled.button`
 `;
 
 export default class Header extends React.PureComponent {
-   _isMounted = false;
-
    constructor(props) {
 	 super(props);
 	 this.state = {
@@ -52,6 +50,7 @@ export default class Header extends React.PureComponent {
 	    prices: {}
 	 }
    }
+   _isMounted = false;
 
    componentDidMount() {
 	 this._isMounted = true;
@@ -79,8 +78,6 @@ export default class Header extends React.PureComponent {
    }
 
    render() {
-	 console.log(this.state)
-	 console.log(this.props)
 	 return (
 	    <div>
 		  <Head>
@@ -131,7 +128,7 @@ export default class Header extends React.PureComponent {
 								 this.props.setShow(null)
 
 							}}>
-						<h3>{currencyToSign[this.props.mainStorage.currency] || "$"}</h3>
+						<h3 className={styles.currencySymbol}>{currencyToSign[this.props.mainStorage.currency] || "$"}</h3>
 					  </button>
 					  {this.props.show === "currency" ? (
 						<div className={styles.currencyContent}> {Object.keys(currencyToSign).map((currency, index) => {
@@ -171,37 +168,58 @@ export default class Header extends React.PureComponent {
 			</div>
 		  </Head>
 		  {this.props.show === "cart" ? (
-			this.props.mainStorage?.cartProducts?.length ? (
+
+			/* AICI TREBUIE SA ADAUGI PRODUSELE*/
+
+			this.props.mainStorage ? (
 			   <div className={styles.dropDownShoppingCart}>
 				 <div className={styles.dropDownShoppingCartTitle}>
 				    <h3>My bag, {GetDistinctIDs().size}</h3>
 				 </div>
 				 <div className={styles.itemsContainer}>
-				    {this.props.mainStorage?.cartProducts?.sort((a, b) => a.id.localeCompare(b.id)).map((product, index) => {
-					  return (
-						<div key={product.id}>
-						   <div>{product.id}</div>
-						</div>
-					  );
-				    })}
+				    <div key={3}>
+				    </div>
 				 </div>
 				 <div className={styles.bottomContainer}>
 				    <div className={styles.totalPriceContainer}>
 					  <h3 className={styles.totalPrice}>Total</h3>
 					  <h3>
 						{currencyToSign[this.props.mainStorage.currency]}
-						{/*{Object.values(this.state.prices)}*/}
+						{Object.values(this.state.prices).reduce((a, v) => a + v, 0).toFixed(2)}
 					  </h3>
-
 				    </div>
-
+				    <div className={styles.dropDownShoppingCartButtonContainer}>
+					  <div>
+						<Link to={{
+						   pathname: "/cart",
+						   state: { mode: "cart" }
+						}}>
+						   <button onClick={() => {
+							 this.props.setShow(null);
+							 setMainStorage({ category: "" })
+						   }} className={styles.viewBag}
+						   >VIEW BAG
+						   </button>
+						</Link>
+					  </div>
+					  <div>
+						<button className={styles.checkout}>CHECK OUT</button>
+					  </div>
+				    </div>
 				 </div>
 			   </div>
 
-			) : (<div>ELSE</div>)
-		  ) : (<div>ELSE</div>)}
+			) : (
+			   <div className={styles.dropDownShoppingCart}>
+				 <div className={styles.dropDownShoppingCartTitle}>
+				    <h3>0 items</h3>
+				 </div>
+			   </div>
+			)
+		  ) : (
+			""
+		  )}
 	    </div>
 	 )
-
    }
 }

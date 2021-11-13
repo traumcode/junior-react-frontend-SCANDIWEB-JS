@@ -4,8 +4,9 @@ import { ApolloClient, ApolloProvider, from, HttpLink, InMemoryCache } from "@ap
 import { onError } from "@apollo/client/link/error";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Layout from "../ui/Layout";
-import mainStorage from "../mainStorage";
+import persMainStorage from "../persMainStorage";
 import { getDistinctIDs } from "../utils/GetData";
+import Home from "../pages/Home";
 
 export const currencyToSign = {
    GBP: "£",
@@ -16,9 +17,9 @@ export const currencyToSign = {
 }
 
 export function setMainStorage(Obj) {
-   const mainStorage = JSON.parse(localStorage.getItem("mainStorage") || "{}");
+   const mainStorage = JSON.parse(localStorage.getItem("persMainStorage") || "{}");
    const newState = { ...mainStorage, ...Obj };
-   localStorage.setItem("mainStorage", JSON.stringify(newState));
+   localStorage.setItem("persMainStorage", JSON.stringify(newState));
    window.dispatchEvent(new Event("storage"));
 }
 
@@ -61,7 +62,7 @@ export default class App extends PureComponent {
 
    componentDidMount() {
 	 window.addEventListener("storage", () => {
-	    let mainStorage = JSON.parse(window.localStorage.getItem("mainStorage")) || {};
+	    let mainStorage = JSON.parse(window.localStorage.getItem("persMainStorage")) || {};
 	    if (this._isMounted) {
 		  mainStorage.currency = mainStorage?.currency || "USD";
 		  mainStorage.category = mainStorage?.category || "home";
@@ -85,7 +86,7 @@ export default class App extends PureComponent {
 			<Layout mainstorage={this.state.mainStorage} client={client}>
 			   <Switch>
 				 <Route path="/" exact getDistinctIDs={getDistinctIDs}>
-				    <div><h1>HOME</h1></div>
+				    <Home client={client} mainstorage={this.state.mainStorage}/>
 				 </Route>
 			   </Switch>
 
