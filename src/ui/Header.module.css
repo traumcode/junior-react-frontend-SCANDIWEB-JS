@@ -273,3 +273,23 @@
 .currencySymbol {
    margin-right: 30px;
    }
+
+.emptyDropDownShoppingCart {
+   position: absolute;
+   width: 325px;
+   height: 180px;
+   right: 6%;
+   top: 78px;
+   background-color: white;
+   animation: growDown 500ms ease-in-out forwards;
+   transform-origin: top center;
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+   z-index: 1;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   }
+
+.emptyDropDownShoppingCartTitle {
+   
+   }
