@@ -6,6 +6,7 @@ import { getDistinctIDs } from "../utils/GetData";
 import { onError } from "@apollo/client/link/error";
 import { ApolloClient, ApolloProvider, from, HttpLink, InMemoryCache } from "@apollo/client";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import ProductPage from "../pages/ProductPage";
 
 export const currencyToSign = {
 	GBP: "£",
@@ -45,19 +46,17 @@ const client = new ApolloClient({
 });
 
 export default class App extends PureComponent {
+	state = {
+		mainStorage: {
+			currency: undefined,
+			category: undefined,
+			isMenuDown: false,
+			isCartMode: false,
+		},
+	}
+
 	_isMounted = true;
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			mainStorage: {
-				currency: undefined,
-				category: undefined,
-				isMenuDown: false,
-				isCartMode: false,
-			},
-		}
-	}
 
 	componentDidMount() {
 		window.addEventListener("storage", () => {
@@ -89,6 +88,9 @@ export default class App extends PureComponent {
 							</Route>
 							<Route path="/category/:category"
 									 render={(props) => <Home {...props} client={client} mainStorage={this.state.mainStorage}/>}>
+							</Route>
+							<Route path="/product/:id"
+									 render={(props) => <ProductPage {...props} mainStorage={this.state.mainStorage} client={client}/>}>
 							</Route>
 						</Switch>
 

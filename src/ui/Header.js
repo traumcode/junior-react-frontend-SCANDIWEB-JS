@@ -8,7 +8,7 @@ import { getDistinctIDs as GetDistinctIDs } from "../utils/GetData";
 import { ReactComponent as BrandSvg } from "../resources/brand.svg";
 import { ReactComponent as CartSvg } from "../resources/cart.svg";
 import DropdownCart from "./DropdownCart"
-
+import DropdownCurrency from "./DropdownCurrency";
 
 const Head = styled.div`
   height: 80px;
@@ -20,7 +20,6 @@ const Head = styled.div`
   display: flex;
   margin: 0;
 `;
-
 const CategoryButton = styled.button`
   all: unset;
   position: static;
@@ -40,23 +39,21 @@ const CategoryButton = styled.button`
 `;
 
 export default class Header extends React.PureComponent {
+	state = {
+		categories: [],
+		currencies: [],
+		currenciesMenuIsOpen: false,
+		miniCartIsOpen: false,
+		prices: {}
+	}
+
 	_isMounted = false;
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			categories: [],
-			currencies: [],
-			currenciesMenuIsOpen: false,
-			miniCartIsOpen: false,
-			symbols: [ "$", "£", "$", "¥", "₽" ],
-			prices: {}
-		}
-	}
 
 	componentDidMount() {
 		this._isMounted = true;
 		this.getCategories();
+
 	}
 
 	getCategories() {
@@ -137,22 +134,10 @@ export default class Header extends React.PureComponent {
 											className={styles.currencySymbol}>{currencyToSign[this.props.mainStorage.currency] || "$"}</h3>
 									</button>
 									{this.props.show === "currency" ? (
-										<div className={styles.currencyContent}> {Object.keys(currencyToSign).map((currency, index) => {
-											return (
-												<button
-													key={index}
-													className={styles.currencyButton}
-													onClick={() => {
-														setMainStorage({ currency });
-														this.props.setShow(null);
-													}}>
-													<h3 className={styles.currencyButtonText}>
-														{currencyToSign[currency]}
-														{currency}
-													</h3>
-												</button>);
-										})}
-										</div>
+
+										/* CURRENCY DROP DOWN MENU */
+
+										<DropdownCurrency setShow={this.props.setShow}/>
 									) : (
 										""
 									)}
@@ -175,12 +160,11 @@ export default class Header extends React.PureComponent {
 					<title>SCANDIWEB STORE APP</title>
 				</Head>
 				{this.props.show === "cart" ? (
-
-					/* AICI TREBUIE SA ADAUGI PRODUSELE*/
-
 					this.props.mainStorage.cartItems ? (
-						<DropdownCart {...this.props} />
 
+						/*	CART DROP DOWN MENU */
+
+						<DropdownCart {...this.props} />
 					) : (
 						<div className={styles.emptyDropDownShoppingCart}>
 							<div className={styles.emptyDropDownShoppingCartTitle}>

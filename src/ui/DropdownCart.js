@@ -10,7 +10,6 @@ export default class DropdownCart extends React.Component {
 	}
 
 	render() {
-		console.log(this.props)
 		return (
 			<div className={styles.dropDownShoppingCart}>
 				<div className={styles.dropDownShoppingCartTitle}>

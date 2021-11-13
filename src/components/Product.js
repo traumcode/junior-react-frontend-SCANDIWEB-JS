@@ -7,7 +7,7 @@ import styles from './Product.module.css';
 export const getPrice = (prices = [], currency = "USD") => {
 	let price = prices.find((item) => item.currency === currency);
 	const currencySign = currencyToSign[price?.currency];
-	return currencySign + " " + (price.amount || "?");
+	return currencySign + "   " + (price.amount || "?");
 };
 
 export default class Product extends React.PureComponent {
@@ -24,10 +24,7 @@ export default class Product extends React.PureComponent {
 		}
 	}
 
-
 	render() {
-		console.log(this.state)
-
 		return (
 			<div className={`${!this.props.inStock ? styles.productIsOutOfStock : ""} ${styles.productCard}`}>
 				<Link
@@ -60,7 +57,7 @@ export default class Product extends React.PureComponent {
 							<h3 className={styles.productTitle}>{this.props.name} </h3>
 							<h3 className={styles.productTitle}>{this.props.brand}</h3>
 						</div>
-						<h3 className={styles.productPrice}>{getPrice(this.props?.prices, this.props.currency)}</h3>
+						<h3>{getPrice(this.props?.prices, this.props.currency)}</h3>
 					</Link>
 				</div>
 			</div>
