@@ -160,7 +160,7 @@ export default class Header extends React.PureComponent {
 					<title>SCANDIWEB STORE APP</title>
 				</Head>
 				{this.props.show === "cart" ? (
-					this.props.mainStorage.cartItems ? (
+					this.props.mainStorage.cartProducts ? (
 
 						/*	CART DROP DOWN MENU */
 

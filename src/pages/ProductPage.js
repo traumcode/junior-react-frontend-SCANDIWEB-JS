@@ -15,7 +15,8 @@ export default class ProductPage extends Component {
 			isLoading: true,
 			bigImage: 0,
 			activeAttributes: {},
-			inCart: 0
+			inCart: 0,
+			gallery: ""
 		}
 	}
 
@@ -34,7 +35,8 @@ export default class ProductPage extends Component {
 		});
 	}
 
-	buttonHandler(productId) {
+	handlerAddToCart(productId) {
+		console.log(this.state)
 		const { activeAttributes } = this.state;
 
 		if (Object.keys(activeAttributes).length === this.state.attributes.length) {
@@ -42,9 +44,12 @@ export default class ProductPage extends Component {
 			const productIndex = this.getCartProductIndex(activeAttributes, this.props.mainStorage?.cartProducts, productId);
 			const product = cartProducts?.[productIndex] || {
 				id: productId,
+				brand:this.state.brand,
 				activeAttributes,
 				amount: 0,
-				prices: []
+				prices: this.state.prices,
+				name: this.state.name,
+				gallery: this.state.gallery
 			};
 			product.amount++;
 
@@ -199,7 +204,7 @@ export default class ProductPage extends Component {
 						{this.state.inStock ? (
 							<button
 								onClick={() => {
-									this.buttonHandler(this.state.id);
+									this.handlerAddToCart(this.state.id);
 								}}
 								className={styles.buttonCart}
 							>

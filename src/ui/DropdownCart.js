@@ -3,6 +3,7 @@ import styles from "./Header.module.css";
 import { getDistinctIDs as GetDistinctIDs } from "../utils/GetData";
 import { currencyToSign, setMainStorage } from "../app/App";
 import { Link } from "react-router-dom";
+import ProductItem from "../components/ProductItem";
 
 export default class DropdownCart extends React.Component {
 	state = {
@@ -10,14 +11,20 @@ export default class DropdownCart extends React.Component {
 	}
 
 	render() {
+		console.log(this.props.mainStorage.cartProducts)
 		return (
 			<div className={styles.dropDownShoppingCart}>
 				<div className={styles.dropDownShoppingCartTitle}>
-					<h3>My bag, {GetDistinctIDs().size}</h3>
+					{GetDistinctIDs().size === 1 ? <h3>My bag, 1 item</h3> : <h3>My bag, {GetDistinctIDs().size} items</h3>}
 				</div>
 				<div className={styles.itemsContainer}>
-					<div key={3}>
-					</div>
+					{(this.props?.mainStorage?.cartProducts || []).sort((a,b) => a.id.localeCompare(b.id)).map((product, index) => {
+						return (
+							<div key={index}>
+								<ProductItem/>
+							</div>
+						)
+					})}
 				</div>
 				<div className={styles.bottomContainer}>
 					<div className={styles.totalPriceContainer}>
