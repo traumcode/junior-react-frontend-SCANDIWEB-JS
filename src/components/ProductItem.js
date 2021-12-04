@@ -2,6 +2,7 @@ import React from "react";
 import { PRODUCT_BY_ID } from "../graphQL/Queries";
 import styles from "./ProductItem.module.css"
 import {Link} from "react-router-dom";
+import { currencyToSign } from "../app/App";
 
 
 export default class ProductItem extends React.Component {
@@ -15,13 +16,14 @@ export default class ProductItem extends React.Component {
 		}
 	}
 
-	async componentDidUpdate(prevProps) {
+	async componentDidUpdate(prevProps, prevState, snapshot) {
 		await this.fetchData();
 		if (this.state.isLoading) {
 			this.setState({ isLoading: false });
 		}
 		if (prevProps.amount !== this.props.amount) {
 			this.props.onFetch?.(this.state.product, this.getPrice(this.state.product.prices))
+
 		}
 	}
 
@@ -54,11 +56,27 @@ export default class ProductItem extends React.Component {
 		this._isMounted = false;
 	}
 
+	getProductPrice(prices) {
+		return prices.find((price) =>  price.currency === this.props?.mainStorage?.currency )?.amount
+	}
+
+	// increment = (value: 1 | -1) => {
+	// 	const {
+	// 				mainStorage: { cartProducts = [] },
+	// 			} = this.props;
+	// 	const productIndex = this.getCartProuctIndex();
+	// 	const product = cartProducts[productIndex];
+	// 	product.amount = product.amount + value;
+	// 	if (product.amount <= 0) {
+	// 		cartProducts.splice(productIndex, 1);
+	// 	}
+	// 	setMainStorage({ cartProducts });
+	// };
 
 	render() {
-		console.log(this.state)
 		let count = 0;
 		const { product } = this.state;
+
 		if (!this.state.product) {
 			return null;
 		}
@@ -72,7 +90,11 @@ export default class ProductItem extends React.Component {
 								{product.brand}
 							</div>
 						</Link>
-						<div className={styles.price}>{this.getProductPrice(product.prices).toFixed(2)}</div>
+						<div className={styles.price}>
+							{currencyToSign[`${this.props?.mainStorage?.currency}`]}
+							{this.getProductPrice(product.prices)?.toFixed(2)}
+						</div>
+						<div><h3>Attributes</h3></div>
 					</div>
 
 					<div className={styles.itemQuantity}>

@@ -69,7 +69,11 @@ export default class App extends PureComponent {
 					mainStorage: mainStorage || {},
 				});
 			}
+			if(!mainStorage.currency) {
+				setMainStorage({currency:"USD"} );
+			}
 		});
+
 		window.dispatchEvent(new Event("storage"));
 	}
 

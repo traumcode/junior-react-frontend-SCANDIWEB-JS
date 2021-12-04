@@ -138,10 +138,9 @@
 
 .image {
    max-width: 100%;
-   max-width: 100%;
    }
 .name {
-   font-family: Raleway;
+   font-family: Raleway, serif;
    font-style: normal;
    font-weight: 300;
    font-size: 19px;

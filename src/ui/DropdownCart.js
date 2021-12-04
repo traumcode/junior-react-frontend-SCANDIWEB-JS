@@ -11,17 +11,26 @@ export default class DropdownCart extends React.Component {
 	}
 
 	render() {
-		console.log(this.props.mainStorage.cartProducts)
 		return (
 			<div className={styles.dropDownShoppingCart}>
 				<div className={styles.dropDownShoppingCartTitle}>
 					{GetDistinctIDs().size === 1 ? <h3>My bag, 1 item</h3> : <h3>My bag, {GetDistinctIDs().size} items</h3>}
 				</div>
 				<div className={styles.itemsContainer}>
-					{(this.props?.mainStorage?.cartProducts || []).sort((a,b) => a.id.localeCompare(b.id)).map((product, index) => {
+					{(this.props?.mainStorage?.cartProducts || []).sort((a, b) => a.id.localeCompare(b.id)).map((product, index) => {
 						return (
 							<div key={index}>
-								<ProductItem/>
+								<ProductItem
+									id={product.id}
+									client={this.props.client}
+									brand={product.brand}
+									amount={product.amount}
+									activeAttributes={product.activeAttributes}
+									gallery={product.gallery}
+									name={product.name}
+									prices={product.prices}
+									mainStorage={this.props.mainStorage}
+								/>
 							</div>
 						)
 					})}

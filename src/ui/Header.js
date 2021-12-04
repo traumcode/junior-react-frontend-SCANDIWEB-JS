@@ -49,11 +49,9 @@ export default class Header extends React.PureComponent {
 
 	_isMounted = false;
 
-
 	componentDidMount() {
 		this._isMounted = true;
 		this.getCategories();
-
 	}
 
 	getCategories() {
