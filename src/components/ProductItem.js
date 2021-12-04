@@ -1,8 +1,8 @@
 import React from "react";
 import { PRODUCT_BY_ID } from "../graphQL/Queries";
 import styles from "./ProductItem.module.css"
-import {Link} from "react-router-dom";
-import { currencyToSign } from "../app/App";
+import { Link } from "react-router-dom";
+import { currencyToSign, setMainStorage } from "../app/App";
 
 
 export default class ProductItem extends React.Component {
@@ -57,21 +57,17 @@ export default class ProductItem extends React.Component {
 	}
 
 	getProductPrice(prices) {
-		return prices.find((price) =>  price.currency === this.props?.mainStorage?.currency )?.amount
+		return prices.find((price) => price.currency === this.props?.mainStorage?.currency)?.amount
 	}
 
-	// increment = (value: 1 | -1) => {
-	// 	const {
-	// 				mainStorage: { cartProducts = [] },
-	// 			} = this.props;
-	// 	const productIndex = this.getCartProuctIndex();
-	// 	const product = cartProducts[productIndex];
-	// 	product.amount = product.amount + value;
-	// 	if (product.amount <= 0) {
-	// 		cartProducts.splice(productIndex, 1);
-	// 	}
-	// 	setMainStorage({ cartProducts });
-	// };
+	increment = (value: 1 | -1) => {
+		const { mainStorage: { cartProducts = [] }, } = this.props;
+		const productIndex = this.props.index;
+		const product = cartProducts[productIndex];
+		product.amount = product.amount + value;
+		if (product.amount <= 0) {cartProducts.splice(productIndex, 1)}
+		setMainStorage({ cartProducts });
+	};
 
 	render() {
 		let count = 0;
@@ -80,6 +76,7 @@ export default class ProductItem extends React.Component {
 		if (!this.state.product) {
 			return null;
 		}
+
 		return (
 			<div key={product.id}>
 				<div className={styles.dropDownShoppingCartItemContainer}>

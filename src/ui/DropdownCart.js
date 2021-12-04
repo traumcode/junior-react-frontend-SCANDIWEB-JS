@@ -6,11 +6,75 @@ import { Link } from "react-router-dom";
 import ProductItem from "../components/ProductItem";
 
 export default class DropdownCart extends React.Component {
-	state = {
-		prices: {}
+	constructor(props) {
+		super();
+		this.state = {
+			prices: {}
+		}
 	}
 
+
+	componentDidMount() {
+		this.props.mainStorage.cartProducts.map((product, i) => {
+			console.log(product)
+			this.setState({
+				prices: {
+					...this.state.prices,
+					[i]: product.prices[i].amount
+				}
+			})
+			// return product.prices.map((price, index) => {
+			// 	console.log(i)
+			// 	console.log(price.amount)
+			// 	this.setState({
+			// 		prices: {
+			// 			...this.state.prices,
+			// 			[i]: price.amount
+			// 		}
+			// 	})
+			// 	return ""
+			// })
+		})
+	}
+
+	componentWillUnmount() {
+		console.log(this.state)
+	}
+
+
 	render() {
+		{/*{Object.values(this.state.prices).reduce((a, v) => a + v, 0).toFixed(2)}*/}
+		// Object.values(product.prices).reduce((a,v) => a + v, 0).toFixed(2))
+		// this.props.mainStorage.cartProducts.map((product, index) => console.log(product.prices))
+
+		// this.props.mainStorage.cartProducts.map((product, index) => console.log(product.prices[index].amount, index))
+		let total = 0
+		// this.props.mainStorage.cartProducts.map((product, index) => product.prices.map((price, index) => {
+		// 	if(price.currency === this.props.mainStorage?.currency) {
+		// 		total += price.amount*product.amount
+		// 		console.log(total)
+		// 	}
+		// }))
+
+		this.props.mainStorage.cartProducts.map((product, index) => product.prices.map((price, index) => {
+			if(price.currency === this.props.mainStorage?.currency) {
+				console.log(price.amount)
+			}
+		}))
+
+		this.props.mainStorage.cartProducts.map((product, index) =>  {
+			let newPrice = Object.values(product.prices[index].amount).reduce((a,v) => a + v, 0).toFixed(2)
+			console.log(newPrice)
+
+		})
+
+
+
+
+		// this.props.mainStorage.cartProducts.map((product) => Object.values(pro))
+		{/*{Object.values(this.state.prices).reduce((a, v) => a + v, 0).toFixed(2)}*/}
+
+		// this.props.mainStorage?.cartProducts?.map((product) => Object.values(product.prices)?.reduce((a,v) => a + v, 0).toFixed(2))
 		return (
 			<div className={styles.dropDownShoppingCart}>
 				<div className={styles.dropDownShoppingCartTitle}>
@@ -21,6 +85,7 @@ export default class DropdownCart extends React.Component {
 						return (
 							<div key={index}>
 								<ProductItem
+									index={index}
 									id={product.id}
 									client={this.props.client}
 									brand={product.brand}
@@ -40,7 +105,8 @@ export default class DropdownCart extends React.Component {
 						<h3 className={styles.totalPrice}>Total</h3>
 						<h3>
 							{currencyToSign[this.props.mainStorage.currency]}
-							{Object.values(this.state.prices).reduce((a, v) => a + v, 0).toFixed(2)}
+
+							{/*{Object.values(this.state.prices).reduce((a, v) => a + v, 0).toFixed(2)}*/}
 						</h3>
 					</div>
 					<div className={styles.dropDownShoppingCartButtonContainer}>
