@@ -77,6 +77,8 @@ export default class ProductItem extends React.Component {
 			return null;
 		}
 
+		console.log(this.state)
+
 		return (
 			<div key={product.id}>
 				<div className={styles.dropDownShoppingCartItemContainer}>
@@ -91,7 +93,87 @@ export default class ProductItem extends React.Component {
 							{currencyToSign[`${this.props?.mainStorage?.currency}`]}
 							{this.getProductPrice(product.prices)?.toFixed(2)}
 						</div>
-						<div><h3>Attributes</h3></div>
+						<div className={styles.attributesContainer}>
+						{this.state?.product.attributes?.map((attribute, aindex) => {
+							let activeAttributes = {}
+							return (
+								<div key={aindex}>
+									<div className={styles.productAttributeTitle}>
+										<h4>{attribute.name.toUpperCase()}:</h4>
+									</div>
+									<div className={styles.attributeButtonContainer}>
+										{attribute.type === "swatch"
+											? attribute?.items.map((item, index) => {
+												return (
+													<div
+														key={index}
+														onClick={() => {
+															this.setState({
+																activeAttributes: {
+																	...activeAttributes,
+																	[attribute.type]: item.value
+																},
+															});
+														}}
+														style={
+															item.value === activeAttributes?.[attribute.type]
+																? {
+																	border: "1px solid black",
+																	borderRadius: "50%",
+																	height: "20px",
+																	width: "20px",
+																	marginRight: "10px",
+																}
+																: {}
+														}
+													>
+														<label>
+															<div
+																className={styles.attributeValueColorContainer}
+																style={{
+																	backgroundColor: `${item.value}`,
+																	height: "20px",
+																	width: "20px",
+																	borderRadius: "50%",
+																}}
+															/>
+															<span className={styles.attributeSizeButtonText}/>
+														</label>
+													</div>
+												);
+											})
+											: attribute?.items.map((item, index) => {
+												return (
+													<div key={index}>
+														<div
+															onClick={() => {
+																this.setState({
+																	activeAttributes: {
+																		...activeAttributes,
+																		[attribute.name]: item.value
+																	},
+																});
+															}}
+															className={styles.attributeValueContainer}
+															style={
+																item.value === activeAttributes?.[attribute.name] ? {
+																	backgroundColor: "black",
+																	color: "white"
+																} : {}
+															}
+														>
+															<label key={index} htmlFor={this.state.name}>
+																<h4 className={styles.attributeSizeButtonText}>{item.displayValue}</h4>
+															</label>
+														</div>
+													</div>
+												);
+											})}
+									</div>
+								</div>
+							);
+						})}
+					</div>
 					</div>
 
 					<div className={styles.itemQuantity}>

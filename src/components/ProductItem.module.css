@@ -153,3 +153,18 @@
    font-size: 19px;
    line-height: 160%;
    }
+
+.link {
+   text-decoration: none;
+   color: black;
+   }
+
+.attributesContainer {
+   display: flex;
+   flex-direction: row;
+   }
+
+.attributeButtonContainer {
+   display: flex;
+   flex-direction: row;
+   }

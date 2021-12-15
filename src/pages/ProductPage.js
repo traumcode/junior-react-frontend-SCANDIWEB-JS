@@ -25,6 +25,11 @@ export default class ProductPage extends Component {
 		this.fetchData();
 	}
 
+	componentDidUpdate() {
+		this._isMounted = true;
+		this.fetchData();
+	}
+
 	getCartProductIndex(activeAttributes, _cartProducts, id) {
 		let cartProducts = _cartProducts?.map((v) => ({ ...v })) || [];
 		return cartProducts.findIndex((p) => {
@@ -36,7 +41,6 @@ export default class ProductPage extends Component {
 	}
 
 	handlerAddToCart(productId) {
-		console.log(this.state)
 		const { activeAttributes } = this.state;
 
 		if (Object.keys(activeAttributes).length === this.state.attributes.length) {
@@ -66,6 +70,9 @@ export default class ProductPage extends Component {
 	}
 
 	fetchData() {
+		if(this.props.match.params.id === this.state.id) {
+			return
+		}
 		this.props.client
 			.query({
 				query: PRODUCT_BY_ID(this.props.match.params.id),
@@ -116,86 +123,84 @@ export default class ProductPage extends Component {
 						<h3 style={{ fontWeight: 400 }}>{this.state.brand}</h3>
 					</div>
 
-					{this.state?.attributes.length > 0
-						? this.state?.attributes.map((attribute, aindex) => {
-							return (
-								<div key={aindex}>
-									<div className={styles.productAttributeTitle}>
-										<h4>{attribute.name.toUpperCase()}:</h4>
-									</div>
-									<div className={styles.attributeButtonContainer}>
-										{attribute.type === "swatch"
-											? attribute?.items.map((item, index) => {
-												return (
+					{this.state?.attributes.map((attribute, aindex) => {
+						return (
+							<div key={aindex}>
+								<div className={styles.productAttributeTitle}>
+									<h4>{attribute.name.toUpperCase()}:</h4>
+								</div>
+								<div className={styles.attributeButtonContainer}>
+									{attribute.type === "swatch"
+										? attribute?.items.map((item, index) => {
+											return (
+												<div
+													key={index}
+													onClick={() => {
+														this.setState({
+															activeAttributes: {
+																...activeAttributes,
+																[attribute.type]: item.value
+															},
+														});
+													}}
+													style={
+														item.value === activeAttributes?.[attribute.type]
+															? {
+																border: "1px solid black",
+																borderRadius: "50%",
+																height: "20px",
+																width: "20px",
+																marginRight: "10px",
+															}
+															: {}
+													}
+												>
+													<label>
+														<div
+															className={styles.attributeValueColorContainer}
+															style={{
+																backgroundColor: `${item.value}`,
+																height: "20px",
+																width: "20px",
+																borderRadius: "50%",
+															}}
+														/>
+														<span className={styles.attributeSizeButtonText}/>
+													</label>
+												</div>
+											);
+										})
+										: attribute?.items.map((item, index) => {
+											return (
+												<div key={index}>
 													<div
-														key={index}
 														onClick={() => {
 															this.setState({
 																activeAttributes: {
 																	...activeAttributes,
-																	[attribute.type]: item.value
+																	[attribute.name]: item.value
 																},
 															});
 														}}
+														className={styles.attributeValueContainer}
 														style={
-															item.value === activeAttributes?.[attribute.type]
-																? {
-																	border: "1px solid black",
-																	borderRadius: "50%",
-																	height: "20px",
-																	width: "20px",
-																	marginRight: "10px",
-																}
-																: {}
+															item.value === activeAttributes?.[attribute.name] ? {
+																backgroundColor: "black",
+																color: "white"
+															} : {}
 														}
 													>
-														<label>
-															<div
-																className={styles.attributeValueColorContainer}
-																style={{
-																	backgroundColor: `${item.value}`,
-																	height: "20px",
-																	width: "20px",
-																	borderRadius: "50%",
-																}}
-															/>
-															<span className={styles.attributeSizeButtonText}/>
+														<label key={index} htmlFor={this.state.name}>
+															<h4 className={styles.attributeSizeButtonText}>{item.displayValue}</h4>
 														</label>
 													</div>
-												);
-											})
-											: attribute?.items.map((item, index) => {
-												return (
-													<div key={index}>
-														<div
-															onClick={() => {
-																this.setState({
-																	activeAttributes: {
-																		...activeAttributes,
-																		[attribute.name]: item.value
-																	},
-																});
-															}}
-															className={styles.attributeValueContainer}
-															style={
-																item.value === activeAttributes?.[attribute.name] ? {
-																	backgroundColor: "black",
-																	color: "white"
-																} : {}
-															}
-														>
-															<label key={index} htmlFor={this.state.name}>
-																<h4 className={styles.attributeSizeButtonText}>{item.displayValue}</h4>
-															</label>
-														</div>
-													</div>
-												);
-											})}
-									</div>
+												</div>
+											);
+										})}
 								</div>
-							);
-						})
-						: null}
+							</div>
+						);
+					})}
 					<div className={styles.productPriceContainer}>
 						<h3 className={styles.productPriceTitle}>PRICE:</h3>
 						<h3 className={styles.productPrice}>{getPrice(this.state.prices, this.props.mainStorage.currency)}</h3>

@@ -15,7 +15,6 @@ export default class DropdownCart extends React.Component {
 		}
 	}
 
-
 	componentDidMount() {
 		this._isMounted = true;
 		this.props.mainStorage.cartProducts.map((product, i) => {
@@ -30,7 +29,6 @@ export default class DropdownCart extends React.Component {
 
 	componentWillUnmount() {
 		this._isMounted = false;
-		console.log(this.state)
 	}
 
 
@@ -43,12 +41,6 @@ export default class DropdownCart extends React.Component {
 			return total;
 		}))
 
-		// this.props.mainStorage.cartProducts.map((product, index) => product.prices.map((price, index) => {
-		// 	if(price.currency === this.props.mainStorage?.currency) {
-		// 		console.log(price.amount)
-		// 	}
-		// 	return price.amount;
-		// }))
 		return (
 			<div className={styles.dropDownShoppingCart}>
 				<div className={styles.dropDownShoppingCartTitle}>
