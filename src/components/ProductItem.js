@@ -12,7 +12,8 @@ export default class ProductItem extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isLoading: true
+			isLoading: true,
+			index: 0
 		}
 	}
 
@@ -77,7 +78,9 @@ export default class ProductItem extends React.Component {
 			return null;
 		}
 
-		console.log(this.state)
+		console.log(this.props?.mainStorage?.cartProducts[this.props.index]?.activeAttributes['Size'])
+		console.log(Object.keys(this.props?.mainStorage?.cartProducts[this.props.index]?.activeAttributes))
+		console.log(Object.values(this.props?.mainStorage?.cartProducts[this.props.index]?.activeAttributes))
 
 		return (
 			<div key={product.id}>
@@ -85,8 +88,12 @@ export default class ProductItem extends React.Component {
 					<div className={styles.itemNamePrice}>
 						<Link className={styles.link} to={{ pathname: `/product/${product.id}` }}>
 							<div className={styles.name}>
-								{product.name}
-								{product.brand}
+								<div>
+									{product.name}
+								</div>
+								<div>
+									{product.brand}
+								</div>
 							</div>
 						</Link>
 						<div className={styles.price}>
@@ -94,86 +101,15 @@ export default class ProductItem extends React.Component {
 							{this.getProductPrice(product.prices)?.toFixed(2)}
 						</div>
 						<div className={styles.attributesContainer}>
-						{this.state?.product.attributes?.map((attribute, aindex) => {
-							let activeAttributes = {}
-							return (
-								<div key={aindex}>
-									<div className={styles.productAttributeTitle}>
-										<h4>{attribute.name.toUpperCase()}:</h4>
-									</div>
-									<div className={styles.attributeButtonContainer}>
-										{attribute.type === "swatch"
-											? attribute?.items.map((item, index) => {
-												return (
-													<div
-														key={index}
-														onClick={() => {
-															this.setState({
-																activeAttributes: {
-																	...activeAttributes,
-																	[attribute.type]: item.value
-																},
-															});
-														}}
-														style={
-															item.value === activeAttributes?.[attribute.type]
-																? {
-																	border: "1px solid black",
-																	borderRadius: "50%",
-																	height: "20px",
-																	width: "20px",
-																	marginRight: "10px",
-																}
-																: {}
-														}
-													>
-														<label>
-															<div
-																className={styles.attributeValueColorContainer}
-																style={{
-																	backgroundColor: `${item.value}`,
-																	height: "20px",
-																	width: "20px",
-																	borderRadius: "50%",
-																}}
-															/>
-															<span className={styles.attributeSizeButtonText}/>
-														</label>
-													</div>
-												);
-											})
-											: attribute?.items.map((item, index) => {
-												return (
-													<div key={index}>
-														<div
-															onClick={() => {
-																this.setState({
-																	activeAttributes: {
-																		...activeAttributes,
-																		[attribute.name]: item.value
-																	},
-																});
-															}}
-															className={styles.attributeValueContainer}
-															style={
-																item.value === activeAttributes?.[attribute.name] ? {
-																	backgroundColor: "black",
-																	color: "white"
-																} : {}
-															}
-														>
-															<label key={index} htmlFor={this.state.name}>
-																<h4 className={styles.attributeSizeButtonText}>{item.displayValue}</h4>
-															</label>
-														</div>
-													</div>
-												);
-											})}
-									</div>
-								</div>
-							);
-						})}
-					</div>
+							<div>
+								{Object.keys(this.props?.mainStorage?.cartProducts[this.props.index]?.activeAttributes).map(function (key, index) {
+									return <div>{key}</div>
+								})}
+							</div>
+
+							<div>{Object?.values(this?.props?.mainStorage?.cartProducts[this?.props?.index]?.activeAttributes)} </div>
+
+						</div>
 					</div>
 
 					<div className={styles.itemQuantity}>
